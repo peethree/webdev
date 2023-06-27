@@ -1,0 +1,16 @@
+{% extends "encyclopedia/layout.html" %}
+
+
+{% block title %}    
+    
+{% endblock %}
+
+<!-- textarea with existing content -->
+{% block body %}       
+    <h4>{{ error }}</h4>
+    <form action="{% url 'wiki:edit_page' title=title %}" method="POST">
+        {% csrf_token %}
+        {{ form }}        
+    </form>
+{% endblock %}
+
