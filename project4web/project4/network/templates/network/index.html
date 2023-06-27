@@ -1,0 +1,69 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    
+
+    <h2>New Post</h2>
+
+    <form action="{% url 'index' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}        
+        {{ form }}
+    </form>
+
+    {% if page_obj %}
+        {% for post in page_obj %}
+            <div style="border: 2px solid lightgray;">                
+                <strong><a href="{% url 'profile' user_id=post.user_id %}">{{ post.user_id}}</a></strong>
+                
+                <br>
+
+                {% if post.image %}
+                    <img src="{{ MEDIA_URL }}{{ post.image.url }}" alt="{{ post.image.url }}" class="post-image">
+                {% endif %}    
+                         
+                
+                <p id="post-content-{{ post.id }}" class="post-content">{{ post.post_content }}</p>
+                <textarea id="edit-content-{{ post.id }}" class="edit-content" style="display: none;">{{ post.post_content }}</textarea>
+                <p>{{ post.post_time }}</p>  
+
+                {% if post.edited == True %} 
+                    <i>edited</i>
+                {% endif %}              
+                           
+                <div style="display: flex;">
+                    {% if user.is_authenticated %}
+                        <button id="like-button-{{ post.id }}" class="like-button" style="margin-right: 6px;">&#x1F44D;</button>
+                        <button id="dislike-button-{{ post.id }}" class="dislike-button" style="margin-right: 6px;">&#x1F44E;</button>                    
+                    {% endif %}   
+
+                    {% if request.user == post.user_id %}
+                        <button id="edit-button-{{ post.id }}" class="edit-button" style="margin-right: 6px;">Edit</button>
+                        <button id="save-button-{{ post.id }}" class="save-button" style="display: none; margin-right: 6px;">Save</button>
+                    {% endif %}
+                </div>                
+               
+                <p id="like-count-{{ post.id }}"><strong>{{ post.likecount }}</strong></p>                                                 
+
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>    
+    
+{% endblock %}
