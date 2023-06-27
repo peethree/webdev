@@ -1,0 +1,119 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if auction.closed == False %} 
+        <h2>{{ auction.title }}</h2>
+    {% else %}
+        <h2>Auction for "{{ auction.title }}" has been closed!</h2>
+    {% endif %}
+
+        <!-- shows either the watchlist form for "add" or "remove", depending on whether or not the on_watchlist variable is True -->
+        {% if on_watchlist %}
+        <form action="{% url 'listing' title=auction.title %}" method="POST">
+            {% csrf_token %}
+            {{ form3 }}
+        </form>
+        {% else %}
+        <form action="{% url 'listing' title=auction.title %}" method="POST">
+            {% csrf_token %}
+            {{ form2 }}
+        </form>
+        {% endif %}
+
+    
+    <hr>    
+
+        <!-- when the auction has been closed, check if someone won -->
+        <div>
+            {% if auction.winner %}
+                {% if auction.winner == user.username %}
+                    <h1>Your bid of ${{ auction.starting_bid }} has <strong>won</strong> the auction!</h1>
+                {% else %}
+                    <p><strong>{{ auction.winner }}</strong> has won the auction</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    
+    <hr>
+
+    <div>              
+        <img src="{{ auction.image.url }}" alt="{{ auction.title }}">   
+        
+        <p>{{ auction.description }}</p>     
+        <strong>${{ auction.starting_bid }}</strong>             
+        <p>{{ auction.bid_number }} bid(s)</p>                
+        
+        <!-- bid form -->
+        <form action="{% url 'listing' title=auction.title %}" method="POST">
+            {% csrf_token %}        
+            {{ form }}            
+        </form>        
+        
+        <hr>
+    
+        {% if recent_bidder %}
+        <!-- show bidders -->
+            {% if user.username == recent_bidder.username %}
+                <strong>You</strong> currently hold the highest bid.
+            {% else %}
+                Highest bid by: <strong>{{ recent_bidder.username }}</strong>
+            {% endif %}
+        {% else %}
+            <p>no bids</p>     
+        {% endif %}
+    </div>   
+
+    <hr>    
+    
+    <p>Auction listed by: <strong>{{ auction.user_id }}</strong></p>
+
+    <hr>  
+
+    <!-- comment form -->
+    <div>
+        <form action="{% url 'listing' title=auction.title %}" method="POST">
+            {% csrf_token %}
+            {{ form5 }}
+        </form>
+    </div>
+
+    <hr>
+
+    <!-- load comments here -->
+    <div>      
+        {% if comment %} 
+            <strong>Comments:</strong>               
+            <br>     
+                {% for c in comment %}
+                    "{{ c.message}}" posted by <strong>{{ c.user_id }}</strong>
+                    <br>
+                {% endfor %}
+        {% endif %}
+    </div>
+
+    <hr>
+
+    <!-- close auction form: only the user who posted the auction can close it -->
+    <div>     
+        {% if auction.user_id.username == user.username %} 
+            {% if auction.closed == False %}                
+                <form action="{% url 'listing' title=auction.title %}" method="POST">
+                    {% csrf_token %}
+                    {{ form4 }}
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <hr>
+
+
+
+    <!-- {% for bid in bids %}
+        <p>{{ bid.auction_id}}</p>
+        <hr>
+    {% endfor %} -->
+   
+
+{% endblock %}

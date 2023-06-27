@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}    
+    auctions by category
+{% endblock %}
+
+
+{% block body %}  
+
+    <h2>List of auctions in the "{{ category }}" category</h2>
+
+    <hr>
+
+    <div>         
+        {% for object in auction_objects %}    
+            {% if object.closed == False %}                      
+                <h4>{{ object.title }}</h4>
+
+                <p>{{ object.description }}</p>
+                <a href="{% url 'listing' title=object.title %}">View Auction</a>
+
+                <hr>   
+            {% endif %}       
+        {% endfor %}   
+    </div>     
+    
+    
+
+{% endblock %}
+
+
+

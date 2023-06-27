@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block title %}    
+    Watchlist
+{% endblock %}
+
+
+{% block body %}
+
+    <!-- every item on user's watchlist -->    
+    {% if watchlists %}
+        <h2>You're currently following these auctions:</h2>
+    {% else %}
+        <h2>No items on your watchlist</h2>
+    {% endif %}
+
+    <hr>
+
+    {% for watchlist in watchlists %}
+    <strong><a href="{% url 'listing' watchlist.auction_id.title %}">{{ watchlist.auction_id.title }}</a></strong>
+        <br>
+    {% endfor %}
+
+
+  
+    
+    
+
+
+{% endblock %}

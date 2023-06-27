@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block title %}    
+    Categories
+{% endblock %}
+
+
+{% block body %}  
+
+    <!-- only showing categories that have active auctions -->
+    {% for category in auction_categories %}
+    
+        <a href="{% url 'auctions_by_category' category %}">{{ category }}</a>   
+        
+        <br>
+    
+    {% endfor %}       
+    
+{% endblock %}
