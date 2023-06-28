@@ -5,7 +5,8 @@ web development projects
 
 ###### this application is essentially a very basic wikipedia clone. The user can browse existing pages of encyclopedia entries. It has a very rough implementation of a search engine to look for specific articles. Users can create new pages and edit existing ones and there's an option to view a random page.
 
-[wiki demonstration video](https://www.youtube.com/watch?v=xmjftXjjxC0){:target="_blank"}
+[wiki demonstration video](javascript:void(window.open("https://www.youtube.com/watch?v=xmjftXjjxC0", "_blank")))
+
 
 ## commerce
 
