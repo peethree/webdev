@@ -1,4 +1,3 @@
-# webdev
 web development projects
 
 ## wiki
