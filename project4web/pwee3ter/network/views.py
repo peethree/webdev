@@ -309,6 +309,9 @@ def like_post(request, post_id):
         # Check if the user has already liked the post
         if user not in post.likes.all():
             post.likes.add(user)
+        else:        
+            post.likes.remove(user)
+
         post.likecount = post.likes.count() - post.dislikes.count()
 
         post.save()
@@ -333,6 +336,9 @@ def dislike_post(request, post_id):
         # Check if the user has already disliked the post
         if user not in post.dislikes.all():
             post.dislikes.add(user)
+        # if user has already disliked, remove the dislike 
+        else:
+            post.dislikes.remove(user)
         post.likecount = post.likes.count() - post.dislikes.count()
             
         post.save()       
