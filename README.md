@@ -17,7 +17,6 @@ My focus with these projects lay entirely with functionality. Little to no effor
 
 None of the projects are being hosted live. However, as mentioned above there are video examples of each run on a localhost.
 
-If one were to install these
 
 ## wiki
 
